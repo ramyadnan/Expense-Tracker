@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:expense_tracker/models/expense.dart';
 
 class NewExpense extends StatefulWidget{
-  const NewExpense({super.key});
+  const NewExpense({super.key, required this.onAddExpense});
+
+  final void Function(Expense expense) onAddExpense;
 
   @override
   State<StatefulWidget> createState() {
@@ -15,6 +17,7 @@ class _NewExpenseState extends State<NewExpense>{
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
+  Category _selectedCategory = Category.food;
 
   void _presentDatePicker() async {
     final now = DateTime.now();
@@ -28,6 +31,38 @@ class _NewExpenseState extends State<NewExpense>{
     setState(() {
       _selectedDate = pickedDate;
     });
+  }
+
+  void _submitExpenseData () {
+    final enteredAmount = double.tryParse(_amountController.text);
+    final amountIsInvalid = enteredAmount == null || enteredAmount <= 0;
+    if (_titleController.text.trim().isEmpty || amountIsInvalid || _selectedDate == null) {
+      showDialog(
+        context: context, 
+        builder: (ctx) => AlertDialog(
+          title: const Text('Invalid Input'),
+          content: const Text('Please enter a valid title, amount, date and category'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+              },
+              child: const Text('Okay'),
+            ),
+          ],
+        )
+      );
+      return;
+    }
+
+    widget.onAddExpense(
+      Expense(
+        title: _titleController.text,
+        amount: enteredAmount,
+        date: _selectedDate!,
+        category: _selectedCategory,
+      ),
+    );
   }
 
   @override
@@ -90,6 +125,35 @@ class _NewExpenseState extends State<NewExpense>{
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey, width: 0.5),
+                  borderRadius: BorderRadius.circular(50), // Matches Cancel button radius
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                    value: _selectedCategory,
+                    items: Category.values.map(
+                      (category) => DropdownMenuItem(
+                        value: category,
+                        child: Text(
+                          '${category.name[0].toUpperCase()}${category.name.substring(1).toLowerCase()}',
+                        ),
+                      ),
+                    ).toList(),
+                    onChanged: (value) {
+                      if (value == null) {
+                        return;
+                      }
+                      setState(() {
+                        _selectedCategory = value;
+                      });
+                    },
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8), // Adds space between the buttons
               SizedBox(
                 width: 100,
                 child: ElevatedButton(
@@ -103,9 +167,8 @@ class _NewExpenseState extends State<NewExpense>{
               SizedBox(
                 width: 100,
                 child: FilledButton(
-                  onPressed: () {
-                    print(_titleController.text);
-                    print(_amountController.text);
+                  onPressed: () { 
+                    _submitExpenseData();
                   },
                   child: const Text('Save'),
                 ),
