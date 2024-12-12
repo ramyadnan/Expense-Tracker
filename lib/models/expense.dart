@@ -1,3 +1,4 @@
+import 'package:expense_tracker/main.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
@@ -13,6 +14,13 @@ const categoryIcons = {
   Category.travel: Icons.flight_takeoff,
   Category.leisure: Icons.shopping_cart,
   Category.work: Icons.work,
+};
+
+const categoryColors = {
+  Category.food: darkestBlue,
+  Category.travel: mediumBlue,
+  Category.leisure: lightOrange,
+  Category.work: lightestBlue,
 };
 
 class Expense {

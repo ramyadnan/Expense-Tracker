@@ -9,40 +9,49 @@ class ExpenseItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: categoryColors[expense.category],
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
+        padding: const EdgeInsets.all(16),
+        child: Row(
           children: [
-            Text(expense.title),
-            const SizedBox(height: 4),
-            Row(
+            Icon(
+              categoryIcons[expense.category],
+              color: Colors.white,
+              size: 35,
+            ),
+            const SizedBox(width: 28),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('\$${expense.amount.toStringAsFixed(2)}'),
-                const Spacer(),
-                Row(
-                  children: [
-                    Icon(categoryIcons[expense.category]),
-                    const SizedBox(width: 8),
-                    Text(expense.formattedDate),
-                  ],
+                Text(
+                  expense.title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  expense.formattedDate,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.white,
+                  ),
                 ),
               ],
-            )
+            ),
+            const Spacer(),
+            Text(
+              '\$${expense.amount.toStringAsFixed(2)}',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontSize: 18,
+              ),
+            ),
           ],
         ),
       ),
-      // child: ListTile(
-      //   leading: CircleAvatar(
-      //     child: Padding(
-      //       padding: const EdgeInsets.all(8.0),
-      //       child: FittedBox(
-      //         child: Text('\$${expense.amount}'),
-      //       ),
-      //     ),
-      //   ),
-      //   title: Text(expense.title),
-      //   subtitle: Text(expense.date.toString()),
-      // ),
     );
   }
 }

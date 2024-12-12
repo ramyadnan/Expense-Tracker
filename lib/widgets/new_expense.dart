@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:expense_tracker/models/expense.dart';
 
-class NewExpense extends StatefulWidget{
+class NewExpense extends StatefulWidget {
   const NewExpense({super.key, required this.onAddExpense});
 
   final void Function(Expense expense) onAddExpense;
@@ -13,11 +13,11 @@ class NewExpense extends StatefulWidget{
   }
 }
 
-class _NewExpenseState extends State<NewExpense>{
+class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
-  Category _selectedCategory = Category.food;
+  Category? _selectedCategory;
 
   void _presentDatePicker() async {
     final now = DateTime.now();
@@ -33,15 +33,16 @@ class _NewExpenseState extends State<NewExpense>{
     });
   }
 
-  void _submitExpenseData () {
+  void _submitExpenseData() {
     final enteredAmount = double.tryParse(_amountController.text);
     final amountIsInvalid = enteredAmount == null || enteredAmount <= 0;
-    if (_titleController.text.trim().isEmpty || amountIsInvalid || _selectedDate == null) {
+
+    if (_titleController.text.trim().isEmpty || amountIsInvalid || _selectedDate == null || _selectedCategory == null) {
       showDialog(
-        context: context, 
+        context: context,
         builder: (ctx) => AlertDialog(
           title: const Text('Invalid Input'),
-          content: const Text('Please enter a valid title, amount, date and category'),
+          content: const Text('Please enter a valid title, amount, date, and category'),
           actions: [
             TextButton(
               onPressed: () {
@@ -50,7 +51,7 @@ class _NewExpenseState extends State<NewExpense>{
               child: const Text('Okay'),
             ),
           ],
-        )
+        ),
       );
       return;
     }
@@ -60,7 +61,7 @@ class _NewExpenseState extends State<NewExpense>{
         title: _titleController.text,
         amount: enteredAmount,
         date: _selectedDate!,
-        category: _selectedCategory,
+        category: _selectedCategory!,
       ),
     );
     Navigator.pop(context);
@@ -76,7 +77,7 @@ class _NewExpenseState extends State<NewExpense>{
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16,48,16,16),
+      padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
       child: Column(
         children: [
           TextField(
@@ -92,7 +93,7 @@ class _NewExpenseState extends State<NewExpense>{
                 child: TextField(
                   controller: _amountController,
                   decoration: const InputDecoration(
-                    prefixText: '\$ ',
+                    prefixText: '£ ',
                     labelText: 'Amount',
                   ),
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -102,7 +103,6 @@ class _NewExpenseState extends State<NewExpense>{
                 ),
               ),
               const SizedBox(width: 16),
-              //date picker
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -122,39 +122,52 @@ class _NewExpenseState extends State<NewExpense>{
               ),
             ],
           ),
-          const SizedBox(height: 16), // Adds space between the text fields
+          const SizedBox(height: 16),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey, width: 0.5),
-                  borderRadius: BorderRadius.circular(50), // Matches Cancel button radius
+              const Text(
+                "Category : ",
+                style: TextStyle(
+                  fontSize: 16,
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+              ),
+              const SizedBox(width: 8),
+              SizedBox(
+                width: 160,
                 child: DropdownButtonHideUnderline(
-                  child: DropdownButton(
+                  child: DropdownButton<Category>(
                     value: _selectedCategory,
                     items: Category.values.map(
-                      (category) => DropdownMenuItem(
+                      (category) => DropdownMenuItem<Category>(
                         value: category,
-                        child: Text(
-                          '${category.name[0].toUpperCase()}${category.name.substring(1).toLowerCase()}',
+                        child: Row(
+                          children: [
+                            Icon(categoryIcons[category]),
+                            const SizedBox(width: 8),
+                            Text(
+                              '${category.name[0].toUpperCase()}${category.name.substring(1).toLowerCase()}',
+                            ),
+                          ],
                         ),
                       ),
                     ).toList(),
                     onChanged: (value) {
-                      if (value == null) {
-                        return;
-                      }
                       setState(() {
                         _selectedCategory = value;
                       });
                     },
+                    hint: const Text(
+                      "Select a category",
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(width: 8), // Adds space between the buttons
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               SizedBox(
                 width: 100,
                 child: ElevatedButton(
@@ -164,13 +177,11 @@ class _NewExpenseState extends State<NewExpense>{
                   child: const Text('Cancel'),
                 ),
               ),
-              const SizedBox(width: 8),  // Adds space between the buttons
+              const SizedBox(width: 8),
               SizedBox(
                 width: 100,
                 child: FilledButton(
-                  onPressed: () { 
-                    _submitExpenseData();
-                  },
+                  onPressed: _submitExpenseData,
                   child: const Text('Save'),
                 ),
               ),
