@@ -7,20 +7,22 @@ final formatter = DateFormat.yMd();
 
 const uuid = Uuid();
 
-enum Category { food, travel, leisure, work } 
+enum Category { food, travel, leisure, work, health } 
 
 const categoryIcons = {
   Category.food: Icons.fastfood,
   Category.travel: Icons.flight_takeoff,
   Category.leisure: Icons.shopping_cart,
   Category.work: Icons.work,
+  Category.health: Icons.health_and_safety,
 };
 
 const categoryColors = {
-  Category.food: darkestBlue,
-  Category.travel: mediumBlue,
-  Category.leisure: lightOrange,
-  Category.work: lightestBlue,
+  Category.food: color1,
+  Category.travel: color2,
+  Category.leisure: color4,
+  Category.work: color5,
+  Category.health: color6,
 };
 
 class Expense {
@@ -39,5 +41,30 @@ class Expense {
 
   String get formattedDate {
     return formatter.format(date);
+  }
+}
+
+class ExpenseBucket {
+  const ExpenseBucket({
+    required this.category,
+    required this.expenses,
+  });
+
+  ExpenseBucket.forCategory(List<Expense> allExpenses, this.category)
+      : expenses = allExpenses
+            .where((expense) => expense.category == category)
+            .toList();
+
+  final Category category;
+  final List<Expense> expenses;
+
+  double get totalExpenses {
+    double sum = 0;
+
+    for (final expense in expenses) {
+      sum += expense.amount; // sum = sum + expense.amount
+    }
+
+    return sum;
   }
 }

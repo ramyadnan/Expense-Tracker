@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:expense_tracker/widgets/new_expense.dart';
 import 'package:expense_tracker/widgets/expenses_list/expenses_list.dart';
 import 'package:expense_tracker/models/expense.dart';
+import 'package:expense_tracker/widgets/chart/chart.dart';
 
 class Expenses extends StatefulWidget{
   const Expenses({super.key});
@@ -22,9 +24,15 @@ class _ExpensesState extends State<Expenses>{
     ),
     Expense(
       title: 'New shoes',
-      amount: 100.0,
-      date: DateTime.now(),
+      amount: 140.0,
+      date: DateFormat('dd/MM/yyyy').parse('15/08/2024'),
       category: Category.leisure,
+    ),
+    Expense(
+      title: 'Flight to Paris',
+      amount: 209.38,
+      date: DateFormat('dd/MM/yyyy').parse('27/10/2024'),
+      category: Category.travel,
     ),
   ];
 
@@ -76,7 +84,13 @@ class _ExpensesState extends State<Expenses>{
     }
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ExpenseTracker'),
+        title: const Text(
+          'ExpenseTracker',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -86,7 +100,7 @@ class _ExpensesState extends State<Expenses>{
       ),
       body: Column(
         children: [
-          const Text('The Chart'),
+          Chart(expenses: _registeredExpenses),
           Expanded(child: mainContent,
           ),
         ],

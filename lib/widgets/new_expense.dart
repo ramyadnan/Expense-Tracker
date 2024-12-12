@@ -122,49 +122,32 @@ class _NewExpenseState extends State<NewExpense> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
           Row(
-            children: [
-              const Text(
-                "Category : ",
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-              const SizedBox(width: 8),
-              SizedBox(
-                width: 160,
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<Category>(
-                    value: _selectedCategory,
-                    items: Category.values.map(
-                      (category) => DropdownMenuItem<Category>(
-                        value: category,
-                        child: Row(
-                          children: [
-                            Icon(categoryIcons[category]),
-                            const SizedBox(width: 8),
-                            Text(
-                              '${category.name[0].toUpperCase()}${category.name.substring(1).toLowerCase()}',
-                            ),
-                          ],
-                        ),
-                      ),
-                    ).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedCategory = value;
-                      });
-                    },
-                    hint: const Text(
-                      "Select a category",
-                    ),
-                  ),
-                ),
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              DropdownMenu<Category>(
+                width: MediaQuery.sizeOf(context).width - 32,
+                initialSelection: _selectedCategory,
+                dropdownMenuEntries: Category.values.map((category) {
+                  return DropdownMenuEntry<Category>(
+                    value: category,
+                    label: 
+                      '${category.name[0].toUpperCase()}${category.name.substring(1).toLowerCase()}',
+                    
+                    leadingIcon: Icon(categoryIcons[category]),
+                  );
+                }).toList(),
+                label: const Text('Category'),
+                onSelected: (Category? value) {
+                  setState(() {
+                    _selectedCategory = value;
+                  });
+                },
               ),
             ],
-          ),
-          const SizedBox(height: 8),
+          ),     
+          const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -192,3 +175,4 @@ class _NewExpenseState extends State<NewExpense> {
     );
   }
 }
+
