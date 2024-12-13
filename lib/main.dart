@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
 
 import 'package:expense_tracker/widgets/expenses.dart';
 
@@ -21,40 +22,46 @@ var kColorSchemeDark = ColorScheme.fromSeed(
 );
 
 void main() {
-  runApp(
-    MaterialApp(
-      darkTheme: ThemeData.dark().copyWith(
-        colorScheme: kColorSchemeDark,
-        cardTheme: const CardTheme().copyWith(
-          color: kColorSchemeDark.secondaryContainer,
-          margin: const EdgeInsets.symmetric(
-            vertical: 5,
-            horizontal: 15,
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations([
+  //   DeviceOrientation.portraitUp,
+  // ]).then((fn) {
+    runApp(
+      MaterialApp(
+        darkTheme: ThemeData.dark().copyWith(
+          colorScheme: kColorSchemeDark,
+          cardTheme: const CardTheme().copyWith(
+            color: kColorSchemeDark.secondaryContainer,
+            margin: const EdgeInsets.symmetric(
+              vertical: 5,
+              horizontal: 15,
+            ),
           ),
         ),
+        theme: ThemeData().copyWith(
+          colorScheme: kColorScheme,
+          appBarTheme: const AppBarTheme().copyWith(
+            backgroundColor: kColorScheme.onPrimary,
+            foregroundColor: kColorScheme.primary,
+          ),
+          scaffoldBackgroundColor: kColorScheme.onPrimary,
+          cardTheme: const CardTheme().copyWith(
+            color: kColorScheme.secondaryContainer,
+            margin: const EdgeInsets.symmetric(
+              vertical: 5,
+              horizontal: 15,
+            ),
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: kColorScheme.primaryContainer,
+            ),
+          ),
+        ),
+        themeMode: ThemeMode.system,
+        home: const Expenses(),
       ),
-      theme: ThemeData().copyWith(
-        colorScheme: kColorScheme,
-        appBarTheme: const AppBarTheme().copyWith(
-          backgroundColor: kColorScheme.onPrimary,
-          foregroundColor: kColorScheme.primary,
-        ),
-        scaffoldBackgroundColor: kColorScheme.onPrimary,
-        cardTheme: const CardTheme().copyWith(
-          color: kColorScheme.secondaryContainer,
-          margin: const EdgeInsets.symmetric(
-            vertical: 5,
-            horizontal: 15,
-          ),
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: kColorScheme.primaryContainer,
-          ),
-        ),
-      ),
-      themeMode: ThemeMode.system,
-      home: const Expenses(),
-    ),
-  );
+    );
+  // });
+  
 }

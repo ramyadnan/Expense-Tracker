@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:expense_tracker/widgets/new_expense.dart';
 import 'package:expense_tracker/widgets/expenses_list/expenses_list.dart';
 import 'package:expense_tracker/models/expense.dart';
-import 'package:expense_tracker/widgets/chart/chart.dart';
+import 'package:expense_tracker/widgets/chart/chart_pie.dart';
 
 class Expenses extends StatefulWidget{
   const Expenses({super.key});
@@ -23,10 +23,10 @@ class _ExpensesState extends State<Expenses>{
       category: Category.food,
     ),
     Expense(
-      title: 'New shoes',
-      amount: 140.0,
+      title: 'Gym Membership',
+      amount: 22.0,
       date: DateFormat('dd/MM/yyyy').parse('15/08/2024'),
-      category: Category.leisure,
+      category: Category.health,
     ),
     Expense(
       title: 'Flight to Paris',
@@ -100,9 +100,8 @@ class _ExpensesState extends State<Expenses>{
       ),
       body: Column(
         children: [
-          Chart(expenses: _registeredExpenses),
-          Expanded(child: mainContent,
-          ),
+          ChartPie(expenses: _registeredExpenses),
+          Expanded(child: mainContent),
         ],
       ),
     );

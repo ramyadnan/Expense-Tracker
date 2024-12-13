@@ -44,14 +44,6 @@ class Chart extends StatelessWidget {
       height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        // gradient: LinearGradient(
-        //   colors: [
-        //     color1.withOpacity(1.0),
-        //     color1.withOpacity(1.0)
-        //   ],
-        //   begin: Alignment.bottomCenter,
-        //   end: Alignment.topCenter,
-        // ),
       ),
       child: Column(
         children: [
@@ -72,20 +64,20 @@ class Chart extends StatelessWidget {
           const SizedBox(height: 12),
           Row(
             children: buckets
-                .map(
-                  (bucket) => Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: Icon(
-                        categoryIcons[bucket.category],
-                        color: isDarkMode
-                            ? Theme.of(context).colorScheme.secondary
-                            : categoryColors[bucket.category]!,
-                      ),
-                    ),
+            .map(
+              (bucket) => Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: Icon(
+                    categoryIcons[bucket.category],
+                    color: isDarkMode
+                        ? Theme.of(context).colorScheme.secondary
+                        : categoryColors[bucket.category]!,
                   ),
-                )
-                .toList(),
+                ),
+              ),
+            )
+            .toList(),
           )
         ],
       ),
