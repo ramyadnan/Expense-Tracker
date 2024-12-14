@@ -44,11 +44,11 @@ class PieChartView extends StatelessWidget {
                 child: SizedBox(
                   width: constraint.maxWidth * 0.6,
                   child: CustomPaint(
-                    child: Center(),
                     foregroundPainter: PieChart(
                       width: constraint.maxWidth * 0.5,
                       buckets: buckets,
                     ),
+                    child: const Center(),
                   ),
                 ),
               ),

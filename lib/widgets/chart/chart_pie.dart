@@ -22,10 +22,8 @@ class ChartPie extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
     return Expanded(
       child: SizedBox(
-        height: height * 0.3,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
           child: Column(

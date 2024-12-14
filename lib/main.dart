@@ -26,42 +26,42 @@ void main() {
   // SystemChrome.setPreferredOrientations([
   //   DeviceOrientation.portraitUp,
   // ]).then((fn) {
-    runApp(
-      MaterialApp(
-        darkTheme: ThemeData.dark().copyWith(
-          colorScheme: kColorSchemeDark,
-          cardTheme: const CardTheme().copyWith(
-            color: kColorSchemeDark.secondaryContainer,
-            margin: const EdgeInsets.symmetric(
-              vertical: 5,
-              horizontal: 15,
-            ),
+  runApp(
+    MaterialApp(
+      darkTheme: ThemeData.dark().copyWith(
+        colorScheme: kColorSchemeDark,
+        cardTheme: const CardTheme().copyWith(
+          color: kColorSchemeDark.secondaryContainer,
+          margin: const EdgeInsets.symmetric(
+            vertical: 5,
+            horizontal: 15,
           ),
         ),
-        theme: ThemeData().copyWith(
-          colorScheme: kColorScheme,
-          appBarTheme: const AppBarTheme().copyWith(
-            backgroundColor: kColorScheme.onPrimary,
-            foregroundColor: kColorScheme.primary,
-          ),
-          scaffoldBackgroundColor: kColorScheme.onPrimary,
-          cardTheme: const CardTheme().copyWith(
-            color: kColorScheme.secondaryContainer,
-            margin: const EdgeInsets.symmetric(
-              vertical: 5,
-              horizontal: 15,
-            ),
-          ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: kColorScheme.primaryContainer,
-            ),
-          ),
-        ),
-        themeMode: ThemeMode.system,
-        home: const Expenses(),
       ),
-    );
+      theme: ThemeData().copyWith(
+        colorScheme: kColorScheme,
+        appBarTheme: const AppBarTheme().copyWith(
+          backgroundColor: kColorScheme.onPrimaryContainer,
+          foregroundColor: kColorScheme.primaryContainer,
+        ),
+        scaffoldBackgroundColor: kColorScheme.primaryContainer,
+        cardTheme: const CardTheme().copyWith(
+          color: kColorScheme.secondaryContainer,
+          margin: const EdgeInsets.symmetric(
+            vertical: 5,
+            horizontal: 15,
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: kColorScheme.primaryContainer,
+          ),
+        ),
+      ),
+      themeMode: ThemeMode.system,
+      home: const Expenses(),
+    ),
+  );
   // });
   
 }
